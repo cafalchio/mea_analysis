@@ -7,6 +7,7 @@
 
 ### Methodology
 
+<img src="https://github.com/cafalchio/mea_analysis/blob/main/mea.png?raw=true" width="200" height="200">
 
 
 ### How to use
@@ -76,6 +77,5 @@ scipy==1.8.0
 seaborn==0.11.2
 tqdm==4.64.0
 
-![Scheme figure](https://github.com/cafalchio/mea_analysis/blob/main/mea.png?raw=true)
 
 
