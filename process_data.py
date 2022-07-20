@@ -38,11 +38,11 @@ def main():
         downsample(data_path, save_path, final_rate)
 
     # Run plotting LFP with treatments
-    if config["plots"]["run"] == "True":
-        data_path = config["plots"]["data_path"]
-        save_path = config["plots"]["save_path"]
-        df_path = config["plots"]["df_path"]
-        slice_name = config["plots"]["slice_name"]
+    if config["plot_lfp"]["run"] == "True":
+        data_path = config["plot_lfp"]["data_path"]
+        save_path = config["plot_lfp"]["save_path"]
+        df_path = config["plot_lfp"]["df_path"]
+        slice_name = config["plot_lfp"]["slice_name"]
         plot_LFP(data_path, save_path, df_path, slice_name)
 
 
