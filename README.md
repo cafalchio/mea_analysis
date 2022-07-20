@@ -7,8 +7,9 @@
 
 ### Methodology
 
+<p align="center">
 <img src="https://github.com/cafalchio/mea_analysis/blob/main/mea.png?raw=true" width="400" height="400" >
-
+</p>
 
 ### How to use
 
