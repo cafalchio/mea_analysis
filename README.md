@@ -16,6 +16,7 @@
 The pipeline can be configured using config.ini, each preprocessing step can be added or remove from the pipeline by changing the 'run' parameter to True or False. 
 for each step, few configurations need to be added.
 
+
 **concatenate**
 
 
@@ -23,6 +24,8 @@ This preprocess step is required for some experiments where the raw recording wa
 
 
 Parameters: 
+
+
     run : True or False -> run or not the step
     data_path : base path where the subfolders are the data
     save_path : where the files will be saved
@@ -36,6 +39,8 @@ This step was created to transform the 64 binary channels into a single channel 
 
 
 Parameters:
+
+
     run : True or False -> run or not the step
     data_path : path to the data
     save_path : where the files will be saved
@@ -50,6 +55,8 @@ Used to represent the LFP. The data is filtered using an 30 point FIR filter wit
 
 
 Parameters:
+
+
     run : True or False -> run or not the step
     data_path : path to the data
     final_rate : the final sample rate
@@ -60,6 +67,8 @@ Parameters:
 
 
 Used to plot the entire recording of each channel. By default the plot will use a 'treatment_times.csv' file that contain the number in minutes of when each treatment was added to the slice.
+<br>
+Parameters:
 
 
     run : True or False -> run or not the step
@@ -71,12 +80,13 @@ Used to plot the entire recording of each channel. By default the plot will use 
 
 ### Requirements
 
-matplotlib==3.5.1
-numpy==1.22.3
-pandas==1.4.2
-scipy==1.8.0
-seaborn==0.11.2
-tqdm==4.64.0
-
+<ul>
+<li>matplotlib==3.5.1x</li>
+<li>numpy==1.22.3</li>
+<li>pandas==1.4.2</li>
+<li>scipy==1.8.0</li>
+<li>seaborn==0.11.2</li>
+<li>tqdm==4.64.0</li>
+</ul>
 
 
