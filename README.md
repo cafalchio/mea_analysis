@@ -7,7 +7,7 @@
 
 ### Methodology
 
-<img src="https://github.com/cafalchio/mea_analysis/blob/main/mea.png?raw=true" width="200" height="200">
+<img src="https://github.com/cafalchio/mea_analysis/blob/main/mea.png?raw=true" width="400" height="400" >
 
 
 ### How to use
