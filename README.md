@@ -1,8 +1,8 @@
 ## Preprocessing and analysis of Multi Electrode Recordings from Human Slices
-
+<br>
 
 ### Intro
-
+<br>
 
 
 ### Methodology
