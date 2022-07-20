@@ -1,15 +1,15 @@
-# Preprocessing and analysis of Multi Electrode Recordings from Human Slices
+## Preprocessing and analysis of Multi Electrode Recordings from Human Slices
 
 
-# Intro
-
-
-
-# Methodology
+### Intro
 
 
 
-# How to use
+### Methodology
+
+
+
+### How to use
 
 The pipeline can be configured using config.ini, each preprocessing step can be added or remove from the pipeline by changing the 'run' parameter to True or False. 
 for each step, few configurations need to be added.
@@ -67,7 +67,7 @@ Used to plot the entire recording of each channel. By default the plot will use 
     df_path : path to the csv file containing the treatment times in minutes
 
 
-# Requirements
+### Requirements
 
 matplotlib==3.5.1
 numpy==1.22.3
