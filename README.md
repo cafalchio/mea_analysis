@@ -38,7 +38,7 @@ This preprocess step is required for some experiments where the raw recording wa
 **single_file**
 
 
-This step was created to transform the 64 binary channels into a single channel to be clustered using Spyking Circus <a href="github.com/spyking-circus/spyking-circus">. 
+This step was created to transform the 64 binary channels into a single channel to be clustered using Spyking Circus <a href="github.com/spyking-circus/spyking-circus">Spyking Circus</a>. 
 
 
 *Parameters:*
