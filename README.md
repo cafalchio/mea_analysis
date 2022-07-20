@@ -16,6 +16,7 @@
 The pipeline can be configured using config.ini, each preprocessing step can be added or remove from the pipeline by changing the 'run' parameter to True or False. 
 for each step, few configurations need to be added.
 
+
 * * *
 
 
