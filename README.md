@@ -15,7 +15,7 @@
 <br>
 The pipeline can be configured using config.ini, each preprocessing step can be added or remove from the pipeline by changing the 'run' parameter to True or False. 
 for each step, few configurations need to be added.
-
+<br>
 
 **concatenate**
 
@@ -23,7 +23,7 @@ for each step, few configurations need to be added.
 This preprocess step is required for some experiments where the raw recording was broken in several folders during recording to reduce filesize. The script will get each piece of each channel from each folder and connect them in sequence to form a single recording channel file.
 
 
-Parameters: 
+*Parameters:* 
 
 
     run : True or False -> run or not the step
@@ -38,7 +38,7 @@ Parameters:
 This step was created to transform the 64 binary channels into a single channel to be clustered using Spyking Circus (github.com/spyking-circus/spyking-circus). 
 
 
-Parameters:
+*Parameters:*
 
 
     run : True or False -> run or not the step
@@ -54,7 +54,7 @@ Parameters:
 Used to represent the LFP. The data is filtered using an 30 point FIR filter with Hamming window and than downsampled.
 
 
-Parameters:
+*Parameters:*
 
 
     run : True or False -> run or not the step
@@ -68,7 +68,8 @@ Parameters:
 
 Used to plot the entire recording of each channel. By default the plot will use a 'treatment_times.csv' file that contain the number in minutes of when each treatment was added to the slice.
 <br>
-Parameters:
+
+*Parameters:*
 
 
     run : True or False -> run or not the step
