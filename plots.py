@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import gc
 from utils import *
+from phylib.io.model import load_model
 
 
 def plot_LFP(data_path, save_path, df_path, slice_name):
@@ -78,3 +79,112 @@ def plot_LFP(data_path, save_path, df_path, slice_name):
             gc.collect()
         except:
             print(f" Could not plot {file}")
+
+
+def plot_raster(data_path, data=None, save_path=None, save_name="raster"):
+    """Plot all waveforms
+    Inputs:
+        data_path(str):
+            path to the data GUI
+        spk_times(str):
+            path to the params.py file
+        spk_clusters(str):
+            path to spike_clusters file
+        clusters_info(str):
+            path to the clusters_info file
+        data(np.array):
+            data to align the raster plot, usually LFP data
+        save_to:
+            name or path of the fig to be saved
+
+    Returns:
+        None
+    """
+    print('Plotting Raters..')
+    # data path files
+    spike_times = data_path + "spike_times.npy"
+    spike_clusters = data_path + "spike_clusters.npy"
+    clusters_info = data_path + "cluster_info.tsv"
+    # load spike times
+    spike_times = np.load(spike_times)
+    # Load spike clusters
+    spike_clusters = np.load(spike_clusters)
+    # load cluster info
+    clusters = pd.read_csv(clusters_info, delimiter="\t")
+    clusters = clusters.loc[clusters.group == "good"].cluster_id.values
+    n_figs = len(clusters)
+    f, axes = plt.subplots(n_figs, figsize=(20, 1 * n_figs))
+    for i, cluster_id in enumerate(clusters):
+        # We get the waveforms of the cluster.
+        unit_spikes = spike_times[spike_clusters == cluster_id]
+        axes[i].eventplot(unit_spikes, data=data)
+        if data:
+            axes[i].set_xlim(0, data.size)
+        axes[i].get_yaxis().set_visible(False)
+        axes[i].get_xaxis().set_visible(False)
+        axes[i].spines["top"].set_visible(False)
+        axes[i].spines["right"].set_visible(False)
+        axes[i].spines["left"].set_visible(False)
+        axes[i].spines["bottom"].set_visible(False)
+
+    if save_path is not None:
+        plt.savefig(save_path + save_name)
+    else:
+        plt.show()
+    pass
+
+
+def plot_waveforms(data_path, save_path=None, save_name="raster"):
+    '''Plot all waveforms
+    Inputs:
+        params(str): 
+            path to the params.py file
+        cluster_info(str): 
+            path to the clusters_info file
+        save_to: 
+            name or path of the fig to be saved
+
+    Returns:
+        None
+    '''
+    print('Plotting Waveforms..')
+    # load files
+    clusters_info = data_path + 'cluster_info.tsv'
+    params = data_path + 'params.py'
+    # load phy model
+    model = load_model(params)
+    # We obtain the cluster id from the command-line arguments.
+    clusters_info = pd.read_csv(clusters_info, delimiter='\t')
+    clusters = clusters_info.loc[clusters_info.group == "good"].cluster_id.values
+
+    n_figs = len(clusters)
+    n_channels_loc = 2
+    if n_figs == 0:
+        print('No figures')
+        return None
+
+    f, axes = plt.subplots(n_figs, min(4, n_channels_loc), figsize=(2,1*n_figs))
+    for i, cluster_id in enumerate(clusters):
+        
+        # We get the waveforms of the cluster.
+        waveforms = model.get_cluster_spike_waveforms(cluster_id)
+        n_spikes, n_samples, _ = waveforms.shape        
+        channel_ids = model.get_cluster_channels(cluster_id)
+        for ch in range(min(2, n_channels_loc)):
+            axes[i, ch].plot(waveforms[::50, :, ch].T, c='royalblue', alpha=.3)
+            axes[i, ch].plot(waveforms[::50, :, ch].T.mean(axis=1), c='blue', alpha=.5)
+            axes[i, ch].get_yaxis().set_visible(False)
+            axes[i, ch].get_xaxis().set_visible(False)
+            # axes[i, ch].set_title(f'Ch {channel_ids}')
+            # axes[i, ch].text(45,160, f'{spk_rate}Hz', fontdict=None)
+            axes[i, ch].spines['top'].set_visible(False)
+            axes[i, ch].spines['right'].set_visible(False)
+            axes[i, ch].spines['left'].set_visible(False)
+            axes[i, ch].spines['bottom'].set_visible(False)
+
+    if save_path:
+        print('savepath')
+        plt.savefig(save_path + save_name + '.jpg')
+    # else:
+    #     plt.show()
+    # pass

@@ -2,7 +2,7 @@ from create_single_file import single_file
 from concatenate import concatenate
 from downsample import downsample
 from utils import get_amplifiers, get_head
-from plots import plot_LFP
+from plots import plot_LFP, plot_raster, plot_waveforms
 from configparser import ConfigParser
 
 file = "config.ini"
@@ -45,6 +45,14 @@ def main():
         slice_name = config["plot_lfp"]["slice_name"]
         plot_LFP(data_path, save_path, df_path, slice_name)
 
+    # Run after-clustering plots
+    if config['after_cluster']['run'] == 'True':
+        data_path = config["after_cluster"]["data_path"]
+        save_path = config["after_cluster"]["save_path"]
+        if config['after_cluster']['plot_raster'] == 'True':
+            plot_raster(data_path, data=None, save_path=save_path, save_name="raster")
+        if config['after_cluster']['plot_waveforms'] == 'True':
+            plot_waveforms(data_path, save_path, save_name="waveforms")
 
 if __name__ == "__main__":
     main()
