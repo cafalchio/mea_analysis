@@ -11,7 +11,14 @@ gc.enable()
 
 def downsample(data_path, new_path, final_rate=1000):
     """Function that downsample the files in the path and save to the new_path.
-    The final sample rate can be entered as final_rate"""
+    The final sample rate can be entered as final_rate
+    Inputs:
+        data_path: path to the data
+        new_path: path to save the downsampled data
+        final_rate: final sample rate
+    Returns:
+        None, but creates a new file downsampled to the final_rate
+    """
     print(f"{'-'*60}")
     print(f"Downsampling to {final_rate} files from: {data_path}")
     head_file = glob(data_path + "/*info.rhd")

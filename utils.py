@@ -45,7 +45,9 @@ def input_treatment_times(df_path, slice):
 
 
 def read_channel(filename):
-    """Function that reads a single LFP channel"""
+    """Read the channel from the file name
+    Inputs: filename(str): name of the file
+    Returns: channel(str): channel name"""
     data_ch = np.fromfile(filename, dtype=np.int16)
     data_ch = data_ch[:]
     return data_ch.copy()
@@ -68,6 +70,7 @@ def find_eeg_files(data_path):
 
 
 def get_head():
+    """provide the head of the output"""
     print(f"{'-'*60}")
     print(f"\tData Processing Script - Mark Cunninghan's Lab")
     print(f"\t  Matheus Cafalchio - maolivei@tcd.ie - 2022")
@@ -76,7 +79,10 @@ def get_head():
 
 
 def get_amplifiers():
-    """Create a single file of all channels, format used by spyking circus"""
+    """Get the list of amplifiers
+    Returns:
+        list of amplifiers
+    """
     # Create file names
     ampA = [f"amp-A-00{i}.dat" for i in range(0, 10)] + [
         f"amp-A-0{i}.dat" for i in range(10, 64)
@@ -103,3 +109,23 @@ def get_amplifiers():
         "D": [ampD, auxD, time],
     }
     return amplifiers
+
+def get_seizures(log_path, slice_name):
+    """
+    Read the seizures from the log file
+    Inputs:
+        log_path(str): path to the log file
+        slice_name(str): name of the slice
+    Returns:
+        seizures(list): list of seizures
+    """
+    log_file = log_path + f"/{slice_name}.log"
+    with open(log_file, "r") as f:
+        lines = f.readlines()
+    seizures = [line.split() for line in lines]
+    seizures = [
+        [int(float(i)) for i in seizure] for seizure in seizures if len(seizure) > 1
+    ]
+    return seizures
+    filename = os.path.join(log_path, f"{slice_name}.csv")
+    return pd.read_csv(filename)

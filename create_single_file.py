@@ -18,6 +18,12 @@ def create_zeros(size, good_channels, data_path, amp_names):
     """This function create zeros file to substitute files that are smaller than the majority
     In the end some of the channels will be just zeros from start to end and can be discarded,
     They are kept here to keed the size 64 channels.
+
+    Inputs:
+        size: the size of the file in int16 bytes
+        good_channels: the list of channels with that size
+        data_path: the path to the data
+        amp_names: the list of amp_names
     """
     logging.debug("Function create_zeros")
     for filename in amp_names:
@@ -32,7 +38,12 @@ def create_zeros(size, good_channels, data_path, amp_names):
 def get_good_channels(data_path, amp_names):
     """
     Returns the size of the file in int16 bytes and the list of channels with that size.
-
+    Inputs:
+        data_path: the path to the data
+        amp_names: the list of amp_names
+    Returns:
+        size: the size of the file in int16 bytes
+        good_channels: the list of channels with that size
     """
     logging.debug("Function get_good_channels")
 
@@ -69,6 +80,14 @@ def single_file(data_path, amp_names, save_path, chunk_sz=512):
 
     This is simply the flatten version of your recordings matrix, with size N x T
     returns: bad channels
+
+    Inputs:
+        data_path: the path to the data
+        amp_names: the list of amp_names
+        save_path: the path to save the data
+        chunk_sz: the size of the chunk in int16 bytes
+    Returns:
+        None, creates a new file .dat
     """
     print(f"{'-'*60}")
     print(f"Creating a single file from: {data_path}")
