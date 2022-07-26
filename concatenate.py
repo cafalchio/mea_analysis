@@ -9,7 +9,16 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 def concatenate(data_path, save_path, amp_names, DEBUG=False):
-    """Function that connects part of intan files in different subfolders into a new folder"""
+    """Function that connects part of intan files in different subfolders into a new folder
+
+    Inputs:
+        data_path: path to the data
+        save_path: path to the new folder
+        amp_names: list of amp_names
+        DEBUG: boolean to print debug messages
+    Returns:
+        None
+    """
     print(f"{'-'*60}")
     print(f"Concatenating files from: {data_path}")
     # Copy info from the first folder

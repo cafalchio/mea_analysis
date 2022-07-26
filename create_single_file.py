@@ -93,7 +93,7 @@ def single_file(data_path, amp_names, save_path, chunk_sz=512):
     print(f"Creating a single file from: {data_path}")
     print("Can take a while ...")
 
-    out_data = save_path + "/" +"".join(data_path.split("/")[-3:]) + ".bin"
+    out_data = save_path + "/" + "".join(data_path.split("/")[-3:]) + ".bin"
     logging.debug(f"Started")
     try:
         info_file = data_path + "/info.rhd"

@@ -47,7 +47,8 @@ def input_treatment_times(df_path, slice):
 def read_channel(filename):
     """Read the channel from the file name
     Inputs: filename(str): name of the file
-    Returns: channel(str): channel name"""
+    Returns: channel(str): channel name
+    """
     data_ch = np.fromfile(filename, dtype=np.int16)
     data_ch = data_ch[:]
     return data_ch.copy()
@@ -109,6 +110,7 @@ def get_amplifiers():
         "D": [ampD, auxD, time],
     }
     return amplifiers
+
 
 def get_seizures(log_path, slice_name):
     """

@@ -11,6 +11,7 @@ config.read(file)
 
 
 def main():
+    """Run the main function"""
     _ = get_head()
     amplifiers = get_amplifiers()
     # Run concatenate files from multiple folders
@@ -46,13 +47,14 @@ def main():
         plot_LFP(data_path, save_path, df_path, slice_name)
 
     # Run after-clustering plots
-    if config['after_cluster']['run'] == 'True':
+    if config["after_cluster"]["run"] == "True":
         data_path = config["after_cluster"]["data_path"]
         save_path = config["after_cluster"]["save_path"]
-        if config['after_cluster']['plot_raster'] == 'True':
+        if config["after_cluster"]["plot_raster"] == "True":
             plot_raster(data_path, data=None, save_path=save_path, save_name="raster")
-        if config['after_cluster']['plot_waveforms'] == 'True':
+        if config["after_cluster"]["plot_waveforms"] == "True":
             plot_waveforms(data_path, save_path, save_name="waveforms")
+
 
 if __name__ == "__main__":
     main()
