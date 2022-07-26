@@ -119,15 +119,7 @@ def get_seizures(log_path, slice_name):
         log_path(str): path to the log file
         slice_name(str): name of the slice
     Returns:
-        seizures(list): list of seizures
+        seizures(dataframe): dataframe with the seizures
     """
-    log_file = log_path + f"/{slice_name}.log"
-    with open(log_file, "r") as f:
-        lines = f.readlines()
-    seizures = [line.split() for line in lines]
-    seizures = [
-        [int(float(i)) for i in seizure] for seizure in seizures if len(seizure) > 1
-    ]
-    return seizures
-    filename = os.path.join(log_path, f"{slice_name}.csv")
-    return pd.read_csv(filename)
+    log_file = os.path.join(log_path, f"{slice_name}.csv")
+    return pd.read_csv(log_file)
