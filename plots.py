@@ -188,3 +188,35 @@ def plot_waveforms(data_path, save_path=None, save_name="raster"):
     # else:
     #     plt.show()
     # pass
+
+def plot_spikes_around_seizure(spike_times, seizure_times, save_path=None, save_name="raster"):
+    """Plot spikes around seizures
+    Inputs:
+        spike_times(arr):
+            spike times
+        seizure_times(arr):
+            seizure times
+        save_path(str):
+            name or path of the fig to be saved
+        save_name(str):
+            name of the fig to be saved
+    Returns:
+        None
+    """
+    print("Plotting Spike around seizure..")
+
+    fig, axs = plt.subplots(1, len(seizure_times, figsize=(len(seizure_times), 2)))
+    for i, seizure_time in enumerate(seizure_times):
+        axs[i].plot(spike_times, np.ones_like(spike_times), ".", alpha=0.5)
+        axs[i].set_xlim(seizure_time - 0.5, seizure_time + 0.5)
+        axs[i].get_yaxis().set_visible(False)
+        axs[i].get_xaxis().set_visible(False)
+        axs[i].spines["top"].set_visible(False)
+        axs[i].spines["right"].set_visible(False)
+        axs[i].spines["left"].set_visible(False)
+        axs[i].spines["bottom"].set_visible(False)
+    if save_path:
+        plt.savefig(save_path + save_name + ".jpg")
+    else:
+        plt.show()
+    pass
