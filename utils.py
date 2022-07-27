@@ -112,14 +112,61 @@ def get_amplifiers():
     return amplifiers
 
 
-def get_seizures(log_path, slice_name):
+def get_seizures(csv_path, slice_name, position):
     """
     Read the seizures from the log file
     Inputs:
-        log_path(str): path to the log file
+        csv_path(str): path to the csv file
         slice_name(str): name of the slice
+        position(str): before, start or end of the seizure
     Returns:
         seizures(dataframe): dataframe with the seizures
     """
-    log_file = os.path.join(log_path, f"{slice_name}.csv")
-    return pd.read_csv(log_file)
+    df = pd.read_csv(csv_path)
+    return df.loc[df.filename == slice_name].position.values
+
+def get_spike_times(data_path):
+    """
+    Read spike times from a data path
+    
+    Inputs:
+        data_path(str): path to the data
+    Returns:
+        spike_times(arr): array of spike times
+    """
+    spike_times = data_path + "spike_times.npy"
+    spike_clusters = data_path + "spike_clusters.npy"
+    clusters_info = data_path + "cluster_info.tsv"
+    # load spike times
+    spike_times = np.load(spike_times)
+    # Load spike clusters
+    spike_clusters = np.load(spike_clusters)
+    # load cluster info
+    clusters = pd.read_csv(clusters_info, delimiter="\t")
+    clusters = clusters.loc[clusters.group == "good"].cluster_id.values
+    # get spike times for good clusters
+    spike_times = spike_times[spike_clusters.astype(int).isin(clusters)]
+    
+    return spike_times
+
+
+def add_paths(*args):
+
+    """Add paths to the data path
+    Inputs:
+        *args: list of paths
+    Returns:
+        path(str): path to the data
+    """
+    path = os.path.join(*args)
+    if os.name == 'posix':
+        consonantes = "bcdfghjklmnpqrstvwxyz"
+        if path[0] in [c.upper() for c in consonantes]:
+            letter = path[0] 
+            path = path.replace(f"{letter}:", f"/mnt/{letter.lower()}")
+    else:
+        path = path.replace("/", "\\")
+    return path
+    
+
+    
