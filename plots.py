@@ -31,7 +31,7 @@ def plot_LFP(data_path, save_path, df_path, slice_name):
     files = find_eeg_files(data_path)
 
     for i, file in enumerate(tqdm(files)):
-        save_name = save_path + "/" + file[-22:-4]
+        save_name = add_paths(save_path, file[-22:-4])
         try:
             data = read_channel(file)
             colors = {
@@ -100,11 +100,11 @@ def plot_raster(data_path, data=None, save_path=None, save_name="raster"):
     Returns:
         None
     """
-    print("Plotting Raters..")
+    print("Plotting Rasters..")
     # data path files
-    spike_times = data_path + "spike_times.npy"
-    spike_clusters = data_path + "spike_clusters.npy"
-    clusters_info = data_path + "cluster_info.tsv"
+    spike_times = add_paths(data_path, "spike_times.npy")
+    spike_clusters = add_paths(data_path, "spike_clusters.npy")
+    clusters_info = add_paths(data_path, "cluster_info.tsv")
     # load spike times
     spike_times = np.load(spike_times)
     # Load spike clusters
@@ -127,8 +127,9 @@ def plot_raster(data_path, data=None, save_path=None, save_name="raster"):
         axes[i].spines["left"].set_visible(False)
         axes[i].spines["bottom"].set_visible(False)
 
-    if save_path is not None:
-        plt.savefig(save_path + save_name)
+    if save_path:
+        save_name = save_name + ".jpg"
+        plt.savefig(add_paths(save_path, save_name))
     else:
         plt.show()
     pass
@@ -149,8 +150,8 @@ def plot_waveforms(data_path, save_path=None, save_name="raster"):
     """
     print("Plotting Waveforms..")
     # load files
-    clusters_info = data_path + "cluster_info.tsv"
-    params = data_path + "params.py"
+    clusters_info = add_paths(data_path, "cluster_info.tsv")
+    params = add_paths(data_path, "params.py")
     # load phy model
     model = load_model(params)
     # We obtain the cluster id from the command-line arguments.
@@ -183,13 +184,16 @@ def plot_waveforms(data_path, save_path=None, save_name="raster"):
             axes[i, ch].spines["bottom"].set_visible(False)
 
     if save_path:
-        print("savepath")
-        plt.savefig(save_path + save_name + ".jpg")
+        save_name = save_name + ".jpg"
+        plt.savefig(add_paths(save_path, save_name))
     # else:
     #     plt.show()
     # pass
 
-def plot_spikes_around_seizure(spike_times, seizure_times, save_path=None, save_name="raster"):
+
+def plot_spikes_around_seizure(
+    spike_times, seizure_times, save_path=None, save_name="raster"
+):
     """Plot spikes around seizures
     Inputs:
         spike_times(arr):
@@ -216,7 +220,8 @@ def plot_spikes_around_seizure(spike_times, seizure_times, save_path=None, save_
         axs[i].spines["left"].set_visible(False)
         axs[i].spines["bottom"].set_visible(False)
     if save_path:
-        plt.savefig(save_path + save_name + ".jpg")
+        save_name = save_name + ".jpg"
+        plt.savefig(add_paths(save_path, save_name))
     else:
         plt.show()
     pass

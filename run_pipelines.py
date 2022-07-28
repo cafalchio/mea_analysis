@@ -1,9 +1,11 @@
 from create_single_file import single_file
 from concatenate import concatenate
 from downsample import downsample
-from utils import get_amplifiers, get_head, get_seizures
-from plots import plot_LFP, plot_raster, plot_waveforms
+from utils import *
+from plots import plot_raster, plot_spikes_around_seizure, plot_waveforms, plot_LFP
 from configparser import ConfigParser
+import time
+
 
 file = "config.ini"
 config = ConfigParser()
@@ -12,6 +14,7 @@ config.read(file)
 
 def main():
     """Run the main function"""
+    st = time.time()
     _ = get_head()
     amplifiers = get_amplifiers()
     # Run concatenate files from multiple folders
@@ -56,11 +59,20 @@ def main():
             plot_waveforms(data_path, save_path, save_name="waveforms")
 
     # Open seizure data
-    if config['seizures']['run'] == 'True':
-        csv_path = config['seizures']['csv_path']
-        slice_name = config['seizures']['slice_name']
-        df = get_seizures(csv_path, slice_name)
-        print(df)
+    if config["seizures"]["run"] == "True":
+        csv_path = config["seizures"]["csv_path"]
+        slice_name = config["seizures"]["slice_name"]
+        position = config["seizures"]["position"]
+        seizure_times = get_seizures(csv_path, slice_name, position)
+        spike_times = get_spike_times(data_path)
+        plot_spikes_around_seizure(
+            spike_times, seizure_times, save_path=None, save_name="raster"
+        )
+
+    et = time.time()
+    # get the execution time
+    elapsed_time = et - st
+    print(f"Execution time: {int(elapsed_time)} seconds")
 
 
 if __name__ == "__main__":

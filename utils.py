@@ -125,18 +125,19 @@ def get_seizures(csv_path, slice_name, position):
     df = pd.read_csv(csv_path)
     return df.loc[df.filename == slice_name].position.values
 
+
 def get_spike_times(data_path):
     """
     Read spike times from a data path
-    
+
     Inputs:
         data_path(str): path to the data
     Returns:
         spike_times(arr): array of spike times
     """
-    spike_times = data_path + "spike_times.npy"
-    spike_clusters = data_path + "spike_clusters.npy"
-    clusters_info = data_path + "cluster_info.tsv"
+    spike_times = add_paths(data_path, "spike_times.npy")
+    spike_clusters = add_paths(data_path, "spike_clusters.npy")
+    clusters_info = add_paths(data_path, "cluster_info.tsv")
     # load spike times
     spike_times = np.load(spike_times)
     # Load spike clusters
@@ -146,7 +147,7 @@ def get_spike_times(data_path):
     clusters = clusters.loc[clusters.group == "good"].cluster_id.values
     # get spike times for good clusters
     spike_times = spike_times[spike_clusters.astype(int).isin(clusters)]
-    
+
     return spike_times
 
 
@@ -159,14 +160,11 @@ def add_paths(*args):
         path(str): path to the data
     """
     path = os.path.join(*args)
-    if os.name == 'posix':
+    if os.name == "posix":
         consonantes = "bcdfghjklmnpqrstvwxyz"
         if path[0] in [c.upper() for c in consonantes]:
-            letter = path[0] 
+            letter = path[0]
             path = path.replace(f"{letter}:", f"/mnt/{letter.lower()}")
     else:
         path = path.replace("/", "\\")
     return path
-    
-
-    

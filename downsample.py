@@ -4,6 +4,7 @@ from scipy import signal
 from read_header import read_header
 import os
 from glob import glob
+from utils import add_paths
 import gc
 
 gc.enable()
@@ -20,7 +21,7 @@ def downsample(data_path, new_path, final_rate=1000):
         None, but creates a new file downsampled to the final_rate
     """
     print(f"{'-'*60}")
-    print(f"Downsampling to {final_rate} files from: {data_path}")
+    print(f"Downsampling files from: {data_path} to {final_rate} samples/sec ")
     head_file = glob(data_path + "/*info.rhd")
     out_path = os.path.join(data_path, new_path)
     if not os.path.exists(out_path):
@@ -31,7 +32,7 @@ def downsample(data_path, new_path, final_rate=1000):
     factor = int(sample_rate / int(final_rate))
 
     for filename in tqdm(sorted(glob(data_path + "/" + "amp*.dat"))):
-        new_name = os.path.join(
+        new_name = add_paths(
             out_path,
             os.path.basename(filename).split(".")[-2] + f"_sr_{final_rate}.dat",
         )

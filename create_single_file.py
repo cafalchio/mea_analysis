@@ -2,6 +2,7 @@ from tqdm.auto import tqdm
 import numpy as np
 import os
 import gc
+from utils import add_paths
 from read_header import read_header
 import logging
 
@@ -30,7 +31,7 @@ def create_zeros(size, good_channels, data_path, amp_names):
         if filename not in good_channels:
             # filesize = int(os.path.getsize(data_path+filename)/2)
             new_data = np.zeros(size)
-            with open(data_path + "/" + filename, "wb") as fb:
+            with open(add_paths(data_path, filename), "wb") as fb:
                 fb.write(new_data.astype("int16"))
     return None
 
@@ -50,7 +51,9 @@ def get_good_channels(data_path, amp_names):
     filesize = {}
     for filename in amp_names:
         try:
-            filesize[filename] = int(os.path.getsize(data_path + "/" + filename) / 2)
+            filesize[filename] = int(
+                os.path.getsize(add_paths(data_path, filename)) / 2
+            )
             # sizes.append(int(os.path.getsize(data_path+filename)/2))
         except:
             print(f"{filename} not exist.")
@@ -91,17 +94,18 @@ def single_file(data_path, amp_names, save_path, chunk_sz=512):
     """
     print(f"{'-'*60}")
     print(f"Creating a single file from: {data_path}")
-    print("Can take a while ...")
 
-    out_data = save_path + "/" + "".join(data_path.split("/")[-3:]) + ".bin"
+    out_name = add_paths(save_path, "".join(data_path.split(f"{os.sep}")[-3:]) + ".bin")
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
     logging.debug(f"Started")
     try:
-        info_file = data_path + "/info.rhd"
+        info_file = add_paths(data_path, "info.rhd")
         logging.debug(f" info file : {info_file}")
         header = read_header(open(info_file, "rb"))
         sample_rate = np.asarray(header["sample_rate"])
         logging.debug(f" sample_rate : {sample_rate}")
-        sample_rate.tofile(save_path + f"sample_rate_{int(sample_rate)}.txt")
+        sample_rate.tofile(add_paths(save_path, f"sample_rate_{int(sample_rate)}.txt"))
     except:
         print("Could not determine sample rate")
 
@@ -124,15 +128,15 @@ def single_file(data_path, amp_names, save_path, chunk_sz=512):
     for i in tqdm(range(0, size, n)):
         chunk = np.array(
             [
-                np.memmap(data_path + "/" + filename, dtype="int16")[i : i + n]
+                np.memmap(add_paths(data_path, filename), dtype="int16")[i : i + n]
                 for filename in sorted(amp_names)
             ]
         ).T.flatten()
 
         if i == 0:
-            with open(out_data, "wb") as fb:
+            with open(out_name, "wb") as fb:
                 fb.write(chunk.astype("int16").tobytes())
         else:
-            with open(out_data, "ab+") as fb:
+            with open(out_name, "ab+") as fb:
                 fb.write(chunk.astype("int16").tobytes())
     print("Done!")
