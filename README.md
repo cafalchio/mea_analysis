@@ -1,8 +1,11 @@
-## Preprocessing and analysis of Multi Electrode Recordings from Human Slices (in progress ..)
+## Preprocessing and analysis of Multi Electrode Recordings from Human Slices
 <br>
 
 ### Intro
 <br>
+The collection of scripts are used to extract and analyse epleptic seizure from human data recorderded with multi-electrodes probe fof 64 channels. The scripts will 
+clean the data, extract the binary, prepare for clustering, plot treatments, plot raw data, plot cluster results, extract waveform features, extract spike times etc.
+
 
 
 ### Methodology
@@ -80,6 +83,12 @@ Used to plot the entire recording of each channel. By default the plot will use 
     save_path : where the plots will be saved
     slice_name : slice name correspondent to the CSV row
     df_path : path to the csv file containing the treatment times in minutes
+
+### Todo:
+    *   compare spike times during and around seizures
+    *   re-cluster cells properties to detect inhibitory and excitatory neurons
+    *   transform the scripts in a package
+
 
 
 ### Requirements
